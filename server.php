@@ -107,7 +107,22 @@
             $query = "INSERT INTO diary (personaldiary, workdiary, submitdate,userid) 
             VALUES ('$personaldiary', '$workdiary', curdate(), '$userid')";
             mysqli_query($database, $query);
+
+
         }
+   }
+
+   if(isset($_POST['editdiary'])){
+        $personaldiary = mysqli_real_escape_string($database, $_POST['personaldiary']);
+        $workdiary = mysqli_real_escape_string($database, $_POST['workdiary']);
+        $username = $_SESSION['username'];
+
+        //retrieving user id from user table
+        $result = mysqli_query($database, "SELECT * FROM user WHERE username='$username'");
+        $userid = mysqli_fetch_assoc($result)['id'];
+
+        $query = "UPDATE diary SET personaldiary='$personaldiary', workdiary='$workdiary' WHERE userid='$userid'";
+        mysqli_query($database, $query);
    }
 
    function displaydata($uname, $value){
